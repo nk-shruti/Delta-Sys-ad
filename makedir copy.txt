@@ -1,0 +1,15 @@
+import os
+
+i = 1
+base_path="/user/Shruti/"
+
+while i<101:
+  ffolder="folder" +str(i)
+  path = base_path + ffolder
+  if not os.path.exists(path): os.makedirs(path)
+  os.chmod(path, 700)
+  filename=path+"/"+ffolder+".txt"
+  file=open(filenameh,'w')
+  file.close()
+  os.chmod(file, 700)
+  i=i+1
