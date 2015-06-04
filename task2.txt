@@ -1,0 +1,50 @@
+import os
+from sys import argv
+script, which_dir=argv
+os.chdir(which_dir)
+
+# Create the fisrt Script file
+file1="Script1.py"
+text_file = open(file1, "w")
+text_file.write("import MySQLdb\n")
+text_file.write("import datetime\n")
+
+text_file.write("""conn=MySQLdb.connect("localhost","root","root")\n""")
+text_file.write("c=conn.cursor()\n")
+
+text_file.write("""qry="CREATE DATABASE myData1"\n""")
+text_file.write("c.execute(qry)\n")
+
+text_file.write("""qry="Use DATABASE myData1" \n""")
+text_file.write("c.execute(qry)\n")
+
+text_file.write("""qry="CREATE TABLE `timest` (`t_stamp` varchar(30) DEFAULT NULL)" \n""")
+text_file.write("c.execute(qry)\n")
+text_file.write("conn.close()\n")
+
+text_file.close()
+os.system('chmod 755 '+file1)
+os.system('/usr/bin/python Script1.py')	
+
+# Create the second Script file
+file1="Script2.py"
+text_file = open(file2, "w")
+text_file.write("import MySQLdb\n")
+text_file.write("import datetime\n")
+
+text_file.write("""conn=MySQLdb.connect("localhost","root","root")\n""")
+text_file.write("c=conn.cursor()\n")
+
+text_file.write("t=str(datetime.datetime.now().time())\n")
+text_file.write("""qry="INSERT INTO timest VALUES(t)"\n""")
+text_file.write("c.execute(qry)\n")
+text_file.write("conn.close()\n")
+
+text_file.close()
+os.system('chmod 755 '+file2)
+os.system('/usr/bin/python Script2.py')	
+
+#write to crontab
+
+cmd= """ (crontab -l; echo "*/10 * * * * """+"""/usr/bin/python"""+which_dir+ """/Script2.py ") | crontab"""
+os.system(cmd)
